@@ -3,13 +3,12 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/gctronic/e-puck/protos/E-puck.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.4146334157412404 0.4752871366109397 0.7760033945305431 1.613099927203611
-  position -0.41068312754081204 -1.8289751125282512 2.3608844714970783
+  orientation 0.20792990650543136 -0.45275193439744615 -0.867052962557659 5.0190436631229165
+  position -0.10952844876390203 -0.9610392908056841 0.20749162694149392
 }
 TexturedBackground {
 }
@@ -18,11 +17,87 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 2 2
 }
-E-puck {
-  hidden translation_1 0 0.026 0.02
-  hidden rotation_1 0 -1 0 3.7759544795442013
-  hidden translation_2 0 -0.025999999999999995 0.02
-  hidden rotation_2 0 -1 0 1.6746201788738988
-  translation 0.4072739071191551 0.157401793604385 -6.431978916849115e-05
-  rotation -0.00010940840654355 0.0007260273102831373 0.9999997304570364 0.7374882733192155
+Robot {
+  translation 0.0007142903254681258 -0.6868444085240434 -0.002257146294865992
+  rotation 0.9701780463426392 0.2423894397795778 0.0013848747677532628 0.10724065814364867
+  children [
+    DEF body Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "C:/Users/yasir/Downloads/976519c45548f56b0e76bb1c52a934c1.jpg"
+          ]
+        }
+        metalness 0
+      }
+    }
+    DEF right_wheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position 40.57636273120602
+        anchor -0.0391 0.0116 0.0171
+      }
+      device [
+        RotationalMotor {
+          name "right wheel"
+        }
+      ]
+      endPoint Solid {
+        translation -0.03989171111788877 0.010856318364050372 0.01698431652691267
+        rotation 0.9999933514643214 0.0035500800011792483 0.0008330420994569936 2.877256859577309
+        children [
+          DEF right_wheel_mesh Shape {
+            appearance PBRAppearance {
+            }
+            geometry Mesh {
+              url [
+                "C:/Users/yasir/Downloads/wheel.stl"
+              ]
+            }
+          }
+        ]
+        boundingObject USE right_wheel_mesh
+        physics Physics {
+        }
+        linearVelocity 0.00043560098323461055 -0.05158386796010876 0.003123407693431051
+        angularVelocity 3.0412365141830913 0.025427866653146114 -0.004425108883557437
+      }
+    }
+    DEF left_wheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position 40.57636278761752
+        anchor -0.0391 0.0116 0.0171
+      }
+      device [
+        RotationalMotor {
+          name "left wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.04016058272021077 0.011549723101187436 0.019159059406991114
+        rotation 0.999985781457416 -0.0013483130599602116 -0.005159354115886367 2.877172184651826
+        children [
+          DEF left_wheel_mesh Shape {
+            appearance PBRAppearance {
+            }
+            geometry Mesh {
+              url [
+                "C:/Users/yasir/Downloads/left_wheel.stl"
+              ]
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE left_wheel_mesh
+        physics Physics {
+        }
+        linearVelocity 0.00043517355302559875 -0.051697488312810194 0.0027726458856302295
+        angularVelocity 3.0412367820292143 0.02542687270794405 -0.0044235247620205915
+      }
+    }
+  ]
+  physics Physics {
+  }
+  controller "custom_robot_controller"
+  linearVelocity 0.0006765279250685889 -0.04805747786999964 0.004032624239282416
+  angularVelocity 0.042213621400649735 0.024350997659267248 0.07221568165663664
 }
