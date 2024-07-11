@@ -60,7 +60,6 @@ def draw_grid(canvas, maze, flood_fill):
                     color = "white"
                 else:
                     temp =  (hex((255 - flood_fill[i][j])*8)[-2:])[-2:]
-                    print(temp)
                     color = f"#{temp}ff00"
 
             # number on the grid color black
