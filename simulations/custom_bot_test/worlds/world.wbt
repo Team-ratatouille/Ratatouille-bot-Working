@@ -5,10 +5,17 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
 
 WorldInfo {
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        -1
+      ]
+    }
+  ]
 }
 Viewpoint {
-  orientation -0.41490698164617873 -0.027879800096680535 0.9094365911529108 2.842279322858867
-  position 0.8781312675641839 -1.1912078919182738 1.0429420852062596
+  orientation -0.5287400026121013 -0.06494079674794909 0.8462958717585103 3.023320748990821
+  position 0.7194969732340695 -0.4562462552340405 1.6194559406890754
 }
 TexturedBackground {
 }
@@ -18,24 +25,26 @@ RectangleArena {
   floorSize 2 2
 }
 Robot {
-  translation -0.005232564617232589 -0.8719255357516283 -0.0033557804574094116
-  rotation -0.9968142773672893 0.04438650737285755 -0.06626563513592987 0.020661977753495108
+  translation 0.13949 -0.629553 -0.00404113
+  rotation -0.007382616407926979 0.0035311382818954884 0.9999665134580294 -1.5641753071795863
   children [
-    BallJoint {
+    Gyro {
+    }
+    DEF caster_2 BallJoint {
       jointParameters BallJointParameters {
-        position 6.27746423554296
+        position 9.414860506734557
         anchor -0.024 -0.03 0.007
       }
       jointParameters2 JointParameters {
-        position -0.0704503052169696
+        position 0.9926282550988654
       }
       jointParameters3 JointParameters {
-        position -31.409198507483183
+        position 4.285084832872586
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.0240000134549293 -0.030000427951716424 0.007017055211366096
-        rotation -0.9999996267251848 0.000753240062849834 -0.00042329528544946026 2.411889011120468
+        translation -0.024067478807226265 -0.03002420266313558 0.007051873041089126
+        rotation 0.6678017236040811 -0.2433489804944635 0.7034359470795644 4.489909409177696
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -49,8 +58,6 @@ Robot {
         boundingObject USE caster
         physics Physics {
         }
-        linearVelocity -0.0001979419597189113 -0.1504372079139175 -0.0030747793240835574
-        angularVelocity 25.07286798486181 -0.03299032660442913 3.269499163957081e-08
       }
     }
     DistanceSensor {
@@ -121,21 +128,21 @@ Robot {
       physics Physics {
       }
     }
-    BallJoint {
+    DEF caster_1 BallJoint {
       jointParameters BallJointParameters {
-        position 6.277471087657039
+        position 15.807992610823913
         anchor 0.024 -0.03 0.007
       }
       jointParameters2 JointParameters {
-        position -0.07144611560678982
+        position 0.5919774333329983
       }
       jointParameters3 JointParameters {
-        position -31.40920633799413
+        position -6.136436872578638
         axis 0 1 0
       }
       endPoint Solid {
-        translation 0.023999986719975254 -0.030000455707505647 0.0070174812664775925
-        rotation -0.9999996265775816 0.0007533618192191159 -0.00042342728629165427 2.4108794655574775
+        translation 0.023996671158990814 -0.029976721977864412 0.006936276925359931
+        rotation -0.6041406068295981 -0.17766027752399632 0.7768210559515373 4.498304673851007
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -149,52 +156,53 @@ Robot {
         boundingObject USE caster
         physics Physics {
         }
-        linearVelocity -0.00019802360577400897 -0.15043583004514474 -0.00316902357319292
-        angularVelocity 25.07263834106502 -0.033003934283648895 4.008379325909315e-08
       }
     }
     DEF Body Shape {
       appearance PBRAppearance {
         baseColorMap ImageTexture {
           url [
-            "C:/Users/yasir/Downloads/mouse texture/micromouse_Material.001_BaseColor.png"
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_BaseColor.png"
           ]
         }
         roughnessMap ImageTexture {
           url [
-            "C:/Users/yasir/Downloads/mouse texture/micromouse_Material.001_Roughness.png"
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_Roughness.png"
           ]
         }
         metalnessMap ImageTexture {
           url [
-            "C:/Users/yasir/Downloads/mouse texture/micromouse_Material.001_Metallic.png"
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_Metallic.png"
           ]
         }
         normalMap ImageTexture {
           url [
-            "C:/Users/yasir/Downloads/mouse texture/micromouse_Material.001_Normal.png"
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_Normal.png"
           ]
         }
       }
       geometry Mesh {
         url [
-          "C:/Users/yasir/Downloads/micromouse.obj"
+          "../../../../../../Downloads/Downloads/micromouse.obj"
         ]
       }
     }
-    HingeJoint {
+    DEF left_wheel HingeJoint {
       jointParameters HingeJointParameters {
-        position 27.5588298383992
+        position 48.662540622812024
         anchor 0.04 0.011 0.018
       }
       device [
+        PositionSensor {
+          name "left wheel encoder"
+        }
         RotationalMotor {
           name "left wheel"
         }
       ]
       endPoint Solid {
-        translation 0.03999996003013377 0.01099994030721367 0.017999981050763177
-        rotation 0.10970090667801961 0.9879021071689549 0.10961358367081685 1.5821714225546337
+        translation 0.040065853649281086 0.01101568925422658 0.017821150229567033
+        rotation 0.6869622796974452 0.23779964272863946 0.6866834468596288 2.6749530769298704
         children [
           DEF left_wheel Shape {
             appearance PBRAppearance {
@@ -202,31 +210,33 @@ Robot {
               metalness 0
             }
             geometry Cylinder {
-              height 0.006
+              height 0.015
               radius 0.015
             }
           }
         ]
         boundingObject USE left_wheel
         physics Physics {
+          mass 1
         }
-        linearVelocity -0.00017611993541967523 -0.15130926910303866 0.0003565514931799225
-        angularVelocity 10.087299510495079 -0.011738722018845954 -0.008516581782023188
       }
     }
-    HingeJoint {
+    DEF right_wheel HingeJoint {
       jointParameters HingeJointParameters {
-        position 27.558829816596713
+        position 46.64804682388427
         anchor -0.04 0.011 0.018
       }
       device [
+        PositionSensor {
+          name "right wheel encoder"
+        }
         RotationalMotor {
           name "right wheel"
         }
       ]
       endPoint Solid {
-        translation -0.040000001969772284 0.01099997067687857 0.017999993876972462
-        rotation -0.7046605529573019 0.08769886155654098 -0.7041039800964032 2.9665154805841043
+        translation -0.0400968591155364 0.010996493047364162 0.01812517372001382
+        rotation 0.6979433853894145 -0.17356403795911157 0.6948025298734103 3.483802223445279
         children [
           DEF left_wheel Shape {
             appearance PBRAppearance {
@@ -234,7 +244,7 @@ Robot {
               metalness 0
             }
             geometry Cylinder {
-              height 0.006
+              height 0.015
               radius 0.015
             }
           }
@@ -242,15 +252,15 @@ Robot {
         name "solid(1)"
         boundingObject USE left_wheel
         physics Physics {
+          mass 1
         }
-        linearVelocity -0.00017604009759190534 -0.1513097024815082 0.0005124124356627591
-        angularVelocity 10.087299523077276 -0.011738739493565884 -0.008516740404209166
+        rotationStep 0.01
       }
     }
   ]
   boundingObject Mesh {
     url [
-      "C:/Users/yasir/Downloads/collosion.stl"
+      "../../../../../../Downloads/Downloads/collosion.stl"
     ]
   }
   physics Physics {
@@ -260,6 +270,4 @@ Robot {
     }
   }
   controller "custom_robot_controller"
-  linearVelocity -0.00016444777163801834 -0.1519949491707543 -0.002633405139938193
-  angularVelocity 0.08731235249124199 0.00186319542810687 -4.709095607672693e-05
 }
