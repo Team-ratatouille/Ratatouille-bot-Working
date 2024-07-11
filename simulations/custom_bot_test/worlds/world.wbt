@@ -87,7 +87,6 @@ Robot {
         0 0 0
         0.15 1000 0
       ]
-      type "laser"
     }
     DistanceSensor {
       translation -0.013 -0.028 0.025
@@ -109,7 +108,6 @@ Robot {
         0 0 0
         0.15 1000 0
       ]
-      type "laser"
     }
     DistanceSensor {
       translation 0.038 -0.02 0.025

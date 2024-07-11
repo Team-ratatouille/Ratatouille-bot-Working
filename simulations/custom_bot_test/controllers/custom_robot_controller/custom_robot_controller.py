@@ -12,7 +12,7 @@ def stop_robot(left_motor, right_motor):
     left_motor.setVelocity(0)
     right_motor.setVelocity(0)
 
-def check_aval(IR_values):
+def check_aval(IR_values, traverse=[]):
     left_aval = False
     right_aval = False
     if IR_values[2] == 1000:
@@ -22,10 +22,20 @@ def check_aval(IR_values):
 
     if left_aval and right_aval:
         print('left and right available')
+        traverse.append("left")
+        traverse.append("forward")
     elif left_aval:
         print('left available')
+        traverse.append("left")
+        traverse.append("forward")
     elif right_aval:
         print('right available')
+        traverse.append("right")
+        traverse.append("forward")
+    else:
+        traverse.append("stop")
+
+    return traverse
 
 def run_robot(robot):
     # get the time step of the current world.
@@ -70,14 +80,14 @@ def run_robot(robot):
 
     # mode of operation
     mode = "right"
-    traverse = ["forward", "forward", "forward", "right", "forward", "forward", "left", "forward","right", "forward", "left", "forward", "right", "forward", "left", "forward", "forward", "left", "forward", "forward", "forward", "stop"]
+    traverse = ["forward"]
     index = 0
     command_count = 1
 
     speed_factor = 2
     P = 0.25
 
-    cell_size = 12.8
+    cell_size = 100 #12.8
     turn_size = 25
 
     wall_triggerd = False
@@ -112,8 +122,11 @@ def run_robot(robot):
             IR_values.append(round(IR_array[i].getValue(), 2))
 
         # if front distance sensors triggered next mode
-        if index + 1 < len(traverse) and IR_values[0] < 750 and IR_values[3] < 750:
+        if IR_values[0] < 750 and IR_values[3] < 750:
             if not wall_triggerd:
+
+                #check if wall is available
+                traverse = check_aval(IR_values, traverse)
 
                 wall_triggerd = True
                 index += 1
@@ -122,10 +135,7 @@ def run_robot(robot):
                 #reset encoder values
                 encoder_init = False
                 command_count = 1
-                print('wall triggerd')
-
-                #check if wall is available
-                check_aval(IR_values)
+                print('wall triggerd mode: ' + mode)
         else:
             wall_triggerd = False
 
@@ -240,7 +250,7 @@ def run_robot(robot):
                 command_count = 1
 
                 #check if wall is available
-                check_aval(IR_values)
+                # check_aval(IR_values)
 
         # avoid hitting the walls
         if IR_values[1] < 300:
