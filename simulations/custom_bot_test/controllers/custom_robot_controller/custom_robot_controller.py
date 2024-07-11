@@ -12,6 +12,21 @@ def stop_robot(left_motor, right_motor):
     left_motor.setVelocity(0)
     right_motor.setVelocity(0)
 
+def check_aval(IR_values):
+    left_aval = False
+    right_aval = False
+    if IR_values[2] == 1000:
+        left_aval = True
+    if IR_values[1] == 1000:
+        right_aval = True
+
+    if left_aval and right_aval:
+        print('left and right available')
+    elif left_aval:
+        print('left available')
+    elif right_aval:
+        print('right available')
+
 def run_robot(robot):
     # get the time step of the current world.
     timestep = int(robot.getBasicTimeStep())
@@ -19,8 +34,8 @@ def run_robot(robot):
     max_speed = 3
     
     #enable motors
-    left_motor = robot.getMotor('left wheel')
-    right_motor = robot.getMotor('right wheel')
+    left_motor = robot.getDevice('left wheel')
+    right_motor = robot.getDevice('right wheel')
     
     left_motor.setPosition(float('inf'))
     left_motor.setVelocity(0.0)
@@ -29,22 +44,22 @@ def run_robot(robot):
     right_motor.setVelocity(0.0)
 
     #left and right motor encoders
-    left_motor_encoder = robot.getPositionSensor('left wheel encoder')
-    right_motor_encoder = robot.getPositionSensor('right wheel encoder')
+    left_motor_encoder = robot.getDevice('left wheel encoder')
+    right_motor_encoder = robot.getDevice('right wheel encoder')
     left_motor_encoder.enable(timestep)
     right_motor_encoder.enable(timestep)
 
     #4 distance sensors IR_L1 L2 R1 R2
     IR_array = []
-    IR_array.append(robot.getDistanceSensor('IR_R2'))
-    IR_array.append(robot.getDistanceSensor('IR_R1'))
-    IR_array.append(robot.getDistanceSensor('IR_L1'))
-    IR_array.append(robot.getDistanceSensor('IR_L2'))
+    IR_array.append(robot.getDevice('IR_R2'))
+    IR_array.append(robot.getDevice('IR_R1'))
+    IR_array.append(robot.getDevice('IR_L1'))
+    IR_array.append(robot.getDevice('IR_L2'))
     for i in range(4):
         IR_array[i].enable(timestep)
 
     #gyro
-    gyro = robot.getGyro('gyro')
+    gyro = robot.getDevice('gyro')
     gyro.enable(timestep)
 
     #get intial encoder values
@@ -55,16 +70,20 @@ def run_robot(robot):
 
     # mode of operation
     mode = "right"
-    traverse = ["forward", "right", "forward", "left", "forward", "left", "foward", "left", "forward", "forward", "stop"]
+    traverse = ["forward", "forward", "forward", "right", "forward", "forward", "left", "forward","right", "forward", "left", "forward", "right", "forward", "left", "forward", "forward", "left", "forward", "forward", "forward", "stop"]
     index = 0
+    command_count = 1
 
     speed_factor = 2
-    P = 1
+    P = 0.25
 
-    cell_size = 17.5
+    cell_size = 12.8
+    turn_size = 25
 
-    damp_speed = 2
-    damp_speed_rotation = 0.3
+    wall_triggerd = False
+
+    damp_speed = 8
+    damp_speed_rotation = 1
 
     encoder_init = False
 
@@ -91,6 +110,32 @@ def run_robot(robot):
         for i in range(4):
             # 2 decimal points
             IR_values.append(round(IR_array[i].getValue(), 2))
+
+        # if front distance sensors triggered next mode
+        if index + 1 < len(traverse) and IR_values[0] < 750 and IR_values[3] < 750:
+            if not wall_triggerd:
+
+                wall_triggerd = True
+                index += 1
+                mode = traverse[index]
+
+                #reset encoder values
+                encoder_init = False
+                command_count = 1
+                print('wall triggerd')
+
+                #check if wall is available
+                check_aval(IR_values)
+        else:
+            wall_triggerd = False
+
+        # Read if the command array has the same command consecutively
+        while True:
+            if index + 1 < len(traverse) and traverse[index] == traverse[index + 1]:
+                command_count += 1
+                index += 1
+            else:
+                break
 
         # Read the gyro sensors:
         gyro_values = []
@@ -128,13 +173,13 @@ def run_robot(robot):
             angle += gyro_values[2]
             integral_start = time.time()
         
-        print('angle: ' + str(angle) + ' mode: ' + mode + " left encoder" + str(left_encoder) + " right encoder" + str(right_encoder))
+        # print('angle: ' + str(angle) + ' mode: ' + mode + " left encoder" + str(left_encoder) + " right encoder" + str(right_encoder))
 
         if mode == "right":
             # rotate 90 degrees right using gyro anglr > 25
-            if angle > -25:
-                left_speed = (25 + angle)/5 + damp_speed_rotation
-                right_speed = -(25 + angle)/5 - damp_speed_rotation
+            if angle > -turn_size * command_count:
+                left_speed = (turn_size * command_count + angle) * P + damp_speed_rotation
+                right_speed = -(turn_size * command_count + angle) * P - damp_speed_rotation
             else:
                 left_speed = 0
                 right_speed = 0
@@ -143,12 +188,13 @@ def run_robot(robot):
                 index += 1
                 #reset encoder values
                 encoder_init = False
-            
+                command_count = 1
+                        
         elif mode == "left":
             # rotate 90 degrees left
-            if angle < 25:
-                left_speed = -(25 - angle)/5 - damp_speed_rotation
-                right_speed = (25 - angle)/5 + damp_speed_rotation
+            if angle < turn_size * command_count:
+                left_speed = -(turn_size * command_count - angle) * P - damp_speed_rotation
+                right_speed = (turn_size * command_count - angle) * P + damp_speed_rotation
             else:
                 left_speed = 0
                 right_speed = 0
@@ -157,6 +203,7 @@ def run_robot(robot):
                 index += 1
                 #reset encoder values
                 encoder_init = False
+                command_count = 1
 
         elif mode == "stop":
             left_speed = 0
@@ -164,15 +211,15 @@ def run_robot(robot):
 
         else:
             # Forward
-            if left_encoder > cell_size:
+            if left_encoder > cell_size * command_count:
                 left_speed = 0
             else:
-                left_speed = cell_size - left_encoder + damp_speed
+                left_speed = cell_size * command_count - left_encoder + damp_speed
 
-            if right_encoder > cell_size:
+            if right_encoder > cell_size * command_count:
                 right_speed = 0
             else:
-                right_speed = cell_size - right_encoder + damp_speed
+                right_speed = cell_size * command_count - right_encoder + damp_speed
 
             # if angle > 0:
             #     left_speed = left_speed + angle/3
@@ -180,14 +227,29 @@ def run_robot(robot):
             #     right_speed = right_speed + angle/3*(-1)
 
 
-            if right_encoder > cell_size and left_encoder > cell_size:
+            if right_encoder > cell_size * command_count and left_encoder > cell_size * command_count:
+
                 left_speed = 0
                 right_speed = 0
                 angle = 0
                 # time.sleep(1)
                 index += 1
+
                 #reset encoder values
                 encoder_init = False
+                command_count = 1
+
+                #check if wall is available
+                check_aval(IR_values)
+
+        # avoid hitting the walls
+        if IR_values[1] < 300:
+            print('right')
+            left_speed = left_speed - 1
+        if IR_values[2] < 300:
+            print('left')
+            right_speed = right_speed - 1
+                
                 
         # rotate 90 degrees left
         # while left_encoder < 4.46:
