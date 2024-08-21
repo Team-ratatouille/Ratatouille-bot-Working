@@ -15,7 +15,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.47055206873261096 -0.0023245856601418822 0.8823691670230601 2.776607882880579
-  position 2.88056372092813 -1.675920571601929 3.028230340154833
+  position 4.168619388350291 -2.4832259865569233 5.070839622157823
 }
 TexturedBackground {
 }
@@ -32,26 +32,26 @@ RectangleArena {
   }
 }
 Robot {
-  translation 1.5746267078639022 -1.4002259154370977 0.001348163563033914
-  rotation 0.00708657109801269 -0.0032158823918848863 -0.999969718846783 1.5641741015737483
+  translation 1.55459 -1.4007 -0.00395526
+  rotation -0.00020990559732449496 5.788309366821826e-05 -0.9999999762945936 1.5667922748340082
   children [
     Gyro {
     }
     DEF caster_2 BallJoint {
       jointParameters BallJointParameters {
-        position 9.414492609663018
+        position 9.422261427701493
         anchor -0.024 -0.03 0.007
       }
       jointParameters2 JointParameters {
-        position 1.0155564870627412
+        position 1.028064104456614
       }
       jointParameters3 JointParameters {
-        position 4.282976839516339
+        position -14.752573131520613
         axis 0 1 0
       }
       endPoint Solid {
-        translation -0.024067458169020572 -0.03002286185469239 0.0070525043022216655
-        rotation 0.6725363868792058 -0.23492954978594352 0.7017855192014416 4.472717745410386
+        translation -0.024064674239507342 -0.030012202157251585 0.007059146604483455
+        rotation -0.6565506662429909 0.30278282927934536 -0.6908428048040159 1.949626983879577
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -125,6 +125,10 @@ Robot {
       name "IR_L2"
       physics Physics {
       }
+      lookupTable [
+        0 0 0
+        0.15 1000 0
+      ]
     }
     DistanceSensor {
       translation -0.035 -0.02 0.025
@@ -142,22 +146,26 @@ Robot {
       name "IR_R2"
       physics Physics {
       }
+      lookupTable [
+        0 0 0
+        0.15 1000 0
+      ]
     }
     DEF caster_1 BallJoint {
       jointParameters BallJointParameters {
-        position 15.808331282491357
+        position 15.81811230682709
         anchor 0.024 -0.03 0.007
       }
       jointParameters2 JointParameters {
-        position 0.6143926083066523
+        position 0.6280646850210809
       }
       jointParameters3 JointParameters {
-        position -6.138611165935589
+        position -25.1810502947228
         axis 0 1 0
       }
       endPoint Solid {
-        translation 0.02399672081264926 -0.02997815741390332 0.006935768184662731
-        rotation -0.5984246425930759 -0.1693450063066597 0.7830774010124074 4.511204923613771
+        translation 0.02398898607182351 -0.02997935026463384 0.006936235907016379
+        rotation 0.5127303162354887 0.18245520072728766 -0.8389384497927251 1.8657566676101458
         children [
           DEF caster Shape {
             appearance PBRAppearance {
@@ -204,7 +212,7 @@ Robot {
     }
     DEF left_wheel HingeJoint {
       jointParameters HingeJointParameters {
-        position 48.97986631451877
+        position 56.912891742937084
         anchor 0.04 0.011 0.018
       }
       device [
@@ -216,8 +224,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.040065853649281086 0.011070711878831699 0.01783497508286867
-        rotation 0.7017875782939045 0.1238312455740097 0.7015411731124312 2.8955589796612475
+        translation 0.040065853649281086 0.01115892613738792 0.018083521709375865
+        rotation -0.6227837097805677 0.47362290268373847 -0.6227533997381176 2.256388298659355
         children [
           DEF left_wheel Shape {
             appearance PBRAppearance {
@@ -238,7 +246,7 @@ Robot {
     }
     DEF right_wheel HingeJoint {
       jointParameters HingeJointParameters {
-        position 46.96537251574949
+        position 54.89839793996259
         anchor -0.04 0.011 0.018
       }
       device [
@@ -250,8 +258,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.0400968591155364 0.010957610571378252 0.018117829942035164
-        rotation 0.678729239309437 -0.288320693385364 0.6754241611552075 3.7025085997102023
+        translation -0.0400968591155364 0.010885885095548137 0.017948438895659315
+        rotation -0.3211317932180995 0.8920543638526859 -0.3179833066623275 1.6815586467566273
         children [
           DEF left_wheel Shape {
             appearance PBRAppearance {
