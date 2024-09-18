@@ -1,0 +1,312 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        -1
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.47055206873261096 -0.0023245856601418822 0.8823691670230601 2.776607882880579
+  position 4.168619388350291 -2.4832259865569233 5.070839622157823
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation -0.01 0.1 0
+  floorSize 4 4
+  floorTileSize 0.387 0.387
+  floorAppearance PBRAppearance {
+    baseColor 0 0 0
+    roughness 1
+    metalness 0
+  }
+}
+Robot {
+  translation 1.55459 -1.4007 -0.00395526
+  rotation -0.00020990559732449496 5.788309366821826e-05 -0.9999999762945936 1.5667922748340082
+  children [
+    Gyro {
+    }
+    DEF caster_2 BallJoint {
+      jointParameters BallJointParameters {
+        position 9.422261427701493
+        anchor -0.024 -0.03 0.007
+      }
+      jointParameters2 JointParameters {
+        position 1.028064104456614
+      }
+      jointParameters3 JointParameters {
+        position -14.752573131520613
+        axis 0 1 0
+      }
+      endPoint Solid {
+        translation -0.024064674239507342 -0.030012202157251585 0.007059146604483455
+        rotation -0.6565506662429909 0.30278282927934536 -0.6908428048040159 1.949626983879577
+        children [
+          DEF caster Shape {
+            appearance PBRAppearance {
+            }
+            geometry Sphere {
+              radius 0.006
+            }
+          }
+        ]
+        name "solid(2)"
+        boundingObject USE caster
+        physics Physics {
+        }
+      }
+    }
+    DistanceSensor {
+      translation 0.014 -0.03 0.025
+      rotation 0 0 1 -0.048300306100425294
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+          castShadows FALSE
+        }
+      ]
+      name "IR_L1"
+      physics Physics {
+      }
+      lookupTable [
+        0 0 0
+        0.15 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation -0.013 -0.028 0.025
+      rotation 0 0 1 -3.0589996938995747
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+          castShadows FALSE
+        }
+      ]
+      name "IR_R1"
+      physics Physics {
+      }
+      lookupTable [
+        0 0 0
+        0.15 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 0.038 -0.02 0.025
+      rotation 0 0 1 -1.3
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+          castShadows FALSE
+        }
+      ]
+      name "IR_L2"
+      physics Physics {
+      }
+      lookupTable [
+        0 0 0
+        0.15 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation -0.035 -0.02 0.025
+      rotation 0 0 1 -1.7595903061004252
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.005 0.005 0.005
+          }
+          castShadows FALSE
+        }
+      ]
+      name "IR_R2"
+      physics Physics {
+      }
+      lookupTable [
+        0 0 0
+        0.15 1000 0
+      ]
+    }
+    DEF caster_1 BallJoint {
+      jointParameters BallJointParameters {
+        position 15.81811230682709
+        anchor 0.024 -0.03 0.007
+      }
+      jointParameters2 JointParameters {
+        position 0.6280646850210809
+      }
+      jointParameters3 JointParameters {
+        position -25.1810502947228
+        axis 0 1 0
+      }
+      endPoint Solid {
+        translation 0.02398898607182351 -0.02997935026463384 0.006936235907016379
+        rotation 0.5127303162354887 0.18245520072728766 -0.8389384497927251 1.8657566676101458
+        children [
+          DEF caster Shape {
+            appearance PBRAppearance {
+            }
+            geometry Sphere {
+              radius 0.006
+            }
+          }
+        ]
+        name "solid(3)"
+        boundingObject USE caster
+        physics Physics {
+        }
+      }
+    }
+    DEF Body Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_BaseColor.png"
+          ]
+        }
+        roughnessMap ImageTexture {
+          url [
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_Roughness.png"
+          ]
+        }
+        metalnessMap ImageTexture {
+          url [
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_Metallic.png"
+          ]
+        }
+        normalMap ImageTexture {
+          url [
+            "../../../../../../Downloads/Downloads/mouse texture/micromouse_Material.001_Normal.png"
+          ]
+        }
+      }
+      geometry Mesh {
+        url [
+          "../../../../../../Downloads/Downloads/micromouse.obj"
+        ]
+      }
+    }
+    DEF left_wheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position 56.912891742937084
+        anchor 0.04 0.011 0.018
+      }
+      device [
+        PositionSensor {
+          name "left wheel encoder"
+        }
+        RotationalMotor {
+          name "left wheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.040065853649281086 0.01115892613738792 0.018083521709375865
+        rotation -0.6227837097805677 0.47362290268373847 -0.6227533997381176 2.256388298659355
+        children [
+          DEF left_wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        boundingObject USE left_wheel
+        physics Physics {
+          mass 1
+        }
+      }
+    }
+    DEF right_wheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position 54.89839793996259
+        anchor -0.04 0.011 0.018
+      }
+      device [
+        PositionSensor {
+          name "right wheel encoder"
+        }
+        RotationalMotor {
+          name "right wheel"
+        }
+      ]
+      endPoint Solid {
+        translation -0.0400968591155364 0.010885885095548137 0.017948438895659315
+        rotation -0.3211317932180995 0.8920543638526859 -0.3179833066623275 1.6815586467566273
+        children [
+          DEF left_wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE left_wheel
+        physics Physics {
+          mass 1
+        }
+        rotationStep 0.01
+      }
+    }
+  ]
+  boundingObject Mesh {
+    url [
+      "../../../../../../Downloads/Downloads/collosion.stl"
+    ]
+  }
+  physics Physics {
+    damping Damping {
+      linear 0
+      angular 0
+    }
+  }
+  controller "custom_robot_controller"
+}
+Solid {
+  translation -1.41 -1.44 0.02
+  children [
+    DEF Maze Shape {
+      appearance PBRAppearance {
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "../../../../../../Downloads/Maze v1.stl"
+        ]
+      }
+    }
+  ]
+  boundingObject USE Maze
+}
